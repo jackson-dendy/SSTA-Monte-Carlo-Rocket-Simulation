@@ -27,7 +27,7 @@ plt.scatter(
 )
 
 # Add Labels to plots
-plt.legend(loc=3, prop={'size': 6})
+plt.legend(loc=2, prop={'size': 6})
 plt.title("Dispersion Analysis")
 plt.ylabel("North (m)")
 plt.xlabel("East (m)")
