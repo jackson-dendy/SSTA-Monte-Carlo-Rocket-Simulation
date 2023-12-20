@@ -1,4 +1,5 @@
 from rocketpy import Rocket, Environment, Function, GenericMotor, Flight, NoseCone
+import numpy
 from numpy.random import normal, choice
 import xlsxwriter
 import os
@@ -11,7 +12,7 @@ import sys
 # Made by Jackson Dendy
 
 # number of simulations ran
-num_sim = 100
+num_sim = 2
 
 # The settings for the simulation the first number is the theoretical value
 # the second is the standard deviation of that value
@@ -25,8 +26,8 @@ analysis_parameters = {
     "Center_of_mass_without_motor": (2.26, 0.0000226),
     "drogue_drag": (3.456, 0.005),
     "main_drag": (28.348, 0.005),
-    #"power_off_drag": (1, 0.05),
-    #"power_on_drag": (1, 0.05),
+    "power_off_drag": (1, 0.05),
+    "power_on_drag": (1, 0.05),
 
     # Motor Position
     "Motor_Position": (2.148, 0.0003),
@@ -150,12 +151,30 @@ for i in range(num_sim):
     P6127.center_of_mass = cg
 
     # Big Liquid object
+    RASPoweroff = Function(
+        source="RASPoweroff.csv",
+        inputs="mach",
+        outputs="CD",
+        interpolation="spline",
+        extrapolation="constant",
+        title="Power off drag",
+    )
+
+    RASPoweron = Function(
+        source="RASPoweron.csv",
+        inputs="mach",
+        outputs="CD",
+        interpolation="spline",
+        extrapolation="constant",
+        title="Power on drag",
+    )
+
     Big_Liquid = Rocket(
         radius=setting["radius_rocket"],
         mass=setting["rocket_mass"],
         inertia=(setting["rocket_inertia_11"], setting["rocket_inertia_11"], setting["rocket_inertia_33"]),
-        power_off_drag="RASPoweroff.csv",  # * setting["power_off_drag"],
-        power_on_drag="RASPoweron.csv",  # * setting["power_on_drag"],
+        power_off_drag=numpy.array(RASPoweroff) * setting["power_off_drag"],
+        power_on_drag=numpy.array(RASPoweron) * setting["power_on_drag"],
         center_of_mass_without_motor=setting["Center_of_mass_without_motor"],
         coordinate_system_orientation="nose_to_tail",
     )

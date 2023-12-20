@@ -58,7 +58,7 @@ cg = rocketpy.Function(
 Big_Liquid.cp_position = cp
 Big_Liquid.center_of_mass = cg
 
-Big_Liquid.cp_position()
+
 
 
 
