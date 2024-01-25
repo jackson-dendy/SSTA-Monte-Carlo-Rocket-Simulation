@@ -4,6 +4,7 @@ from numpy.random import normal, choice
 import xlsxwriter
 import os
 import sys
+import Tools
 
 # This code is a Monte Carlo Simulation for the SSTA Big Liquid program
 # To run this code more sure to install the rocketpy, numpy, and xlsxwriter ibraries
@@ -77,18 +78,11 @@ for z in range(len_bar):
     done.append(x)
 
 # Initialize Excel Files and detect previous files
-if os.path.exists('MonteCarlo_sim_inputs.xlsx') or os.path.exists("MonteCarlo_sim_outputs.xlsx"):
-    sys.stdout.write("The file you are creating already exists you may overwrite"
-                     "data if you proceed.\nDo you wish to proceed? ")
-    ans = input("")
-    ans = ans.lower()
-    ans = ans.capitalize()
-    if ans == "Yes":
-        print("\n\nInitializing Monte Carlo Simulation\n")
-    else:
-        quit()
-else:
+ans = Tools.fileexist('MonteCarlo_sim_inputs.xlsx',"MonteCarlo_sim_outputs.xlsx")
+if ans == True:
     print("\n\nInitializing Monte Carlo Simulation\n")
+else:
+    quit()
 inputs = xlsxwriter.Workbook('MonteCarlo_sim_inputs.xlsx')
 outputs = xlsxwriter.Workbook("MonteCarlo_sim_outputs.xlsx")
 inp = inputs.add_worksheet()

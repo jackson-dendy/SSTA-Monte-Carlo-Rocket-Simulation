@@ -1,4 +1,6 @@
 import numpy as np
+import sys
+import os
 
 def cf(from_unit, to_unit):
     """Returns the conversion factor from one unit to another."""
@@ -61,13 +63,20 @@ def cf(from_unit, to_unit):
 
     return incoming_factor / outgoing_factor
 
-
-
-
-def fileexist(file):
-    if os.path.exists('MonteCarlo_sim_inputs.xlsx') or os.path.exists("MonteCarlo_sim_outputs.xlsx"):
+def fileexist(file1 = None, file2 = None):
+    if os.path.exists(file1) or os.path.exists(file2):
         sys.stdout.write("The file you are creating already exists you may overwrite"
-                        "data if you proceed.\nDo you wish to proceed? ")
+                    "data if you proceed.\nDo you wish to proceed? ")
         ans = input("")
         ans = ans.lower()
         ans = ans.capitalize()
+        ans = input("")
+        if ans == "Yes":
+            return True
+        else:
+            return False
+    else:
+        return True
+    
+
+    
