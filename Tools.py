@@ -60,3 +60,14 @@ def cf(from_unit, to_unit):
         raise ValueError(f"Unit {from_unit} is not supported.")
 
     return incoming_factor / outgoing_factor
+
+
+
+
+def fileexist(file):
+    if os.path.exists('MonteCarlo_sim_inputs.xlsx') or os.path.exists("MonteCarlo_sim_outputs.xlsx"):
+        sys.stdout.write("The file you are creating already exists you may overwrite"
+                        "data if you proceed.\nDo you wish to proceed? ")
+        ans = input("")
+        ans = ans.lower()
+        ans = ans.capitalize()
