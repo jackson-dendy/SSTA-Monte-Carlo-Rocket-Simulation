@@ -2,7 +2,6 @@ from rocketpy import Rocket, Environment, Function, GenericMotor, Flight, NoseCo
 import numpy
 from numpy.random import normal, choice
 import xlsxwriter
-import os
 import sys
 import Tools
 from Wind_Analysis import wind_data, iterator
