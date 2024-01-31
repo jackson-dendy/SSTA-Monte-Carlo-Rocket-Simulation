@@ -4,13 +4,12 @@ from rocketpy import Function
 
 
 ################################################################
-# Unfinished prediction model using previosly aquired wind data
+# Prediction model using previosly aquired wind data
 ################################################################
 
+# The Below Function generate a covariance and mean matrix in order to use in the iterator function
 
-# Takes collected data and creates a normally distributed plot 
-
-
+# Greates equal sized matrix with equivelant y values for every wind data collection
 def equal_matrix(windy,altitude):
        
     func = Function(
@@ -23,6 +22,7 @@ def equal_matrix(windy,altitude):
 
     return speed
 
+# Creates a covariance and mean matrix
 def function_gen(matrix):
     
     mean = np.mean(matrix, axis = 1)
@@ -30,6 +30,7 @@ def function_gen(matrix):
 
     return cov, mean
 
+# Exports the covariance and mean matrixes 
 def wind_data(year, max_height, sample = 120):
     wind_x = []
     wind_y = []
@@ -57,7 +58,7 @@ def wind_data(year, max_height, sample = 120):
 
     return cov_x, cov_y, mean_x, mean_y, altitude
 
-
+# a function designed to be iterated in a monte carlo simulation and exports the environment parameters to a .json
 def iterator(cov_x, cov_y, mean_x, mean_y, altitude, date):
     functionx = np.random.multivariate_normal(mean_x, cov_x)
     functionx = np.vstack((altitude, functionx)) 
@@ -66,7 +67,7 @@ def iterator(cov_x, cov_y, mean_x, mean_y, altitude, date):
 
     export(functionx, functiony, date)
     
-
+# file export function
 def export(exportx, exporty, date):
     def list_maker(matrix):
         matrix = matrix.tolist()
@@ -87,9 +88,4 @@ def export(exportx, exporty, date):
         json.dump(final, w)
         
     
-
-cov_x, cov_y, mean_x, mean_y, altitude = wind_data((2021, 2022, 2017, 2016), 35000)
-
-
-iterator(cov_x, cov_y, mean_x, mean_y, altitude, [2024, 6, 6, 12])
     

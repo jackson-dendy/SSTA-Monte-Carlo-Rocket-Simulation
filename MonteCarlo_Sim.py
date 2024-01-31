@@ -14,8 +14,9 @@ from Wind_Analysis import wind_data, iterator
 # Made by Jackson Dendy
 #####################################################################################
 
-
+# Turns wind data files into a mean and covarience matrix
 cov_x, cov_y, mean_x, mean_y, altitude = wind_data((2021, 2022, 2017, 2016), 35000)
+
 # number of simulations ran
 num_sim = 2
 
@@ -107,8 +108,9 @@ for p in analysis_parameters.keys():
 
 # The simulations that are ran are dependent on what the above parameters, and they change each iteration
 for i in range(num_sim):
-
+    # Creates the model for the wind data on the current simulation iteration
     iterator(cov_x, cov_y, mean_x, mean_y, altitude, [2024, 6, 6, 12])
+
     # for each iteration this loop defines the parameters of the simulation
     setting = {}
     for parameter_key, parameter_value in analysis_parameters.items():

@@ -43,6 +43,7 @@ def wind_data1(year, month=6, day=6, soundingstation=72388):
             break
     return year
 
+# Creates a file to be written to for the final environment data
 def finalfile(year):
     ans = Tools.fileexist("Outputs\\WindData\\Final_Wind.json")
     if ans == True:
