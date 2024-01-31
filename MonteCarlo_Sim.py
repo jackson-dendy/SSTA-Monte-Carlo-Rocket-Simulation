@@ -5,12 +5,14 @@ import xlsxwriter
 import os
 import sys
 import Tools
-
+####################################################################################
 # This code is a Monte Carlo Simulation for the SSTA Big Liquid program
 # To run this code more sure to install the rocketpy, numpy, and xlsxwriter ibraries
 # The data for the simulation can be found in your project folder as
 # MonteCarlo_sim_inputs.xlsx and MonteCarlo_sim_outputs.xlsx
 # Made by Jackson Dendy
+#####################################################################################
+
 
 # number of simulations ran
 num_sim = 2
@@ -55,13 +57,13 @@ analysis_parameters = {
     "Center_of_mass_motor": (1.7067, 0.001),
     "nozzle_position": (3.596, 0.002),
     "Burn_time": (12.066, 0.001),
-    "propellant_initial_mass": (33.5, 0.002),
+    "propellant_initial_mass": (33.5, 0.5),
     "Impulse": (73828.591382, 50),
 
     # Flight Parameters
     "rail_length": (6.096, 0.002),
-    "inclination": (88, 0.0005),
-    "heading": (0, 0.0002)
+    "inclination": (88, 0.25),
+    "heading": (0, 0.002)
 }
 
 # creates n list of sim number and loading bar
@@ -78,13 +80,15 @@ for z in range(len_bar):
     done.append(x)
 
 # Initialize Excel Files and detect previous files
-ans = Tools.fileexist('MonteCarlo_sim_inputs.xlsx',"MonteCarlo_sim_outputs.xlsx")
-if ans == True:
-    print("\n\nInitializing Monte Carlo Simulation\n")
+ans = Tools.fileexist('Outputs\\MonteCarlo_sim_inputs.xlsx')
+ans2 = Tools.fileexist('Outputs\\MonteCarlo_sim_outputs.xlsx')
+if ans == True and ans2 == True:
+    print("\n\nInitializing Monte Carlo Simulation")
+    print("******************************************\n\n")
 else:
     quit()
-inputs = xlsxwriter.Workbook('MonteCarlo_sim_inputs.xlsx')
-outputs = xlsxwriter.Workbook("MonteCarlo_sim_outputs.xlsx")
+inputs = xlsxwriter.Workbook('Outputs\\MonteCarlo_sim_inputs.xlsx')
+outputs = xlsxwriter.Workbook("Outputs\\MonteCarlo_sim_outputs.xlsx")
 inp = inputs.add_worksheet()
 out = outputs.add_worksheet()
 
@@ -115,7 +119,7 @@ for i in range(num_sim):
 
     # Motor Object
     P6127 = GenericMotor(
-        thrust_source="MotorData(thrust).csv",
+        thrust_source="CSV-S\\MotorData(thrust).csv",
         dry_mass=setting["dry_mass"],
         dry_inertia=(setting["motor_inertia_11"], setting["motor_inertia_11"], setting["motor_inertia_33"]),
         nozzle_radius=setting["nozzle_radius"],
@@ -134,7 +138,7 @@ for i in range(num_sim):
     P6127.exhaust_velocity.set_discrete_based_on_model(P6127.thrust)
 
     cg = Function(
-        source="CG(OR).csv",
+        source="CSV-S\\CG(OR).csv",
         inputs="time (s)",
         outputs="CG (m)",
         interpolation="spline",
@@ -146,7 +150,7 @@ for i in range(num_sim):
 
     # Big Liquid object
     RASPoweroff = Function(
-        source="RASPoweroff.csv",
+        source="CSV-S\\RASPoweroff.csv",
         inputs="mach",
         outputs="CD",
         interpolation="spline",
@@ -155,7 +159,7 @@ for i in range(num_sim):
     )
 
     RASPoweron = Function(
-        source="RASPoweron.csv",
+        source="CSV-S\\RASPoweron.csv",
         inputs="mach",
         outputs="CD",
         interpolation="spline",
@@ -199,7 +203,7 @@ for i in range(num_sim):
     Big_Liquid.add_tail(0.0785, 0.057, 0.076, 5.668)
 
     cp = Function(
-        source="CP.csv",
+        source="CSV-S\\CP.csv",
         inputs="Mach",
         outputs="CP (m)",
         interpolation="spline",
@@ -208,7 +212,7 @@ for i in range(num_sim):
     )
 
     cg = Function(
-        source="CG_Rocket.csv",
+        source="CSV-S\\CG_Rocket.csv",
         inputs="Time (sec)",
         outputs="CG (m)",
         interpolation="spline",

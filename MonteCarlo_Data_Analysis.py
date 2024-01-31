@@ -2,8 +2,13 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+#############################################
+# Analysis code for the output excel sheets
+# from the monte carlo simulation
+##############################################
 
-res = pd.read_excel("MonteCarlo_sim_outputs.xlsx")
+
+res = pd.read_excel("Outputs\\MonteCarlo_sim_outputs.xlsx")
 del res[0]
 length = len(res)
 res = np.array_split(res, length)

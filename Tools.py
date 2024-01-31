@@ -1,6 +1,11 @@
 import numpy as np
 import sys
+import shutil
 import os
+
+####################################################################
+# File detection function, folder detection function, unit converter
+####################################################################
 
 def cf(from_unit, to_unit):
     """Returns the conversion factor from one unit to another."""
@@ -63,15 +68,31 @@ def cf(from_unit, to_unit):
 
     return incoming_factor / outgoing_factor
 
-def fileexist(file1 = None, file2 = None):
-    if os.path.exists(file1) or os.path.exists(file2):
+def folderexist(file1):
+    if os.path.exists(file1):
+        ans = input("The file you are creating already exists you may overwrite"
+                    "data if you proceed.\nDo you wish to proceed? ") 
+        ans = ans.lower()
+        ans = ans.capitalize()
+        if ans == "Yes":
+            shutil.rmtree(file1)
+            return True
+        else:
+            return False
+    else:
+        return True
+    
+
+
+def fileexist(file1):
+    if os.path.exists(file1):
         sys.stdout.write("The file you are creating already exists you may overwrite"
                     "data if you proceed.\nDo you wish to proceed? ")
         ans = input("")
         ans = ans.lower()
         ans = ans.capitalize()
-        ans = input("")
         if ans == "Yes":
+            os.remove(file1)
             return True
         else:
             return False
