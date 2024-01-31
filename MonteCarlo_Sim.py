@@ -5,6 +5,7 @@ import xlsxwriter
 import os
 import sys
 import Tools
+from Wind_Analysis import wind_data, iterator
 ####################################################################################
 # This code is a Monte Carlo Simulation for the SSTA Big Liquid program
 # To run this code more sure to install the rocketpy, numpy, and xlsxwriter ibraries
@@ -14,6 +15,7 @@ import Tools
 #####################################################################################
 
 
+cov_x, cov_y, mean_x, mean_y, altitude = wind_data((2021, 2022, 2017, 2016), 35000)
 # number of simulations ran
 num_sim = 2
 
@@ -105,6 +107,8 @@ for p in analysis_parameters.keys():
 
 # The simulations that are ran are dependent on what the above parameters, and they change each iteration
 for i in range(num_sim):
+
+    iterator(cov_x, cov_y, mean_x, mean_y, altitude, [2024, 6, 6, 12])
     # for each iteration this loop defines the parameters of the simulation
     setting = {}
     for parameter_key, parameter_value in analysis_parameters.items():
@@ -234,8 +238,8 @@ for i in range(num_sim):
     )
 
     env.set_atmospheric_model(
-        type="Windy",
-        file="GFS"
+        type="custom_atmosphere",
+        file="Outputs\\WindData\\Final_Wind.json"
     )
 
     # Flight parameters
