@@ -13,13 +13,13 @@ import multiprocessing
 # Function for making file
 def file_make():
     print("Collecting Wind data")
-    print("########################\n\n")
-    ans = Tools.folderexist("Outputs\\WindData")
-
-    if ans == True:
-        os.makedirs("Outputs\\WindData")
+    print("########################\n")
+    file = "Outputs\\WindData"
+    if os.path.exists(file):
+        shutil.rmtree(file)
+        os.makedirs(file)
     else:
-        quit()
+        os.makedirs(file)
 
 
 
@@ -69,14 +69,10 @@ def multipro(year):
             for results in results:
                 result.append(results)
             print(result)
+            print()
 
 
-#################################################################          
-if __name__ == "__main__":
-    year = (2021, 2022, 2019, 2018, 2017, 2016) # Fill in list with years you want 
-    multipro(year) # Take Year, Month, Day, Sounding Station
-    # Default is June 6th Station: 72388(Las Vegas)
-#################################################################
+
 
 
 

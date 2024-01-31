@@ -32,6 +32,7 @@ def function_gen(matrix):
 
 # Exports the covariance and mean matrixes 
 def wind_data(year, max_height, sample = 120):
+    print("Generating Matrixes \n########################\n")
     wind_x = []
     wind_y = []
     
