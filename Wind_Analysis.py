@@ -24,7 +24,7 @@ def wind_data(year):
         windyx = data["atmospheric_model_wind_velocity_x_profile"]
         windyy = data["atmospheric_model_wind_velocity_y_profile"]
 
-        speedx = equal_matrix(windyx)
+        speedx, altitude = equal_matrix(windyx)
         speedy = equal_matrix(windyy)
 
         wind_x.append(speedx)
@@ -32,6 +32,19 @@ def wind_data(year):
     
     wind_x = np.concatenate(wind_x, axis=1)
     wind_y = np.concatenate(wind_y, axis=1)
+
+    wind_x = function_gen(wind_x)
+    wind_y = function_gen(wind_y)
+
+    plt.figure()
+    plt.scatter(wind_x, altitude)
+def function_gen(matrix):
+    mean = mean(matrix)
+    cov = cov(matrix)
+
+    function = np.random.multivariate_normal(mean, cov)
+
+    return function
     
     
     
@@ -51,7 +64,7 @@ def equal_matrix(windy):
     speed = func.get_value(altitude)
     speed = np.array(speed, ndmin= 2).T    
 
-    return speed
+    return speed, altitude
 
 wind_data((2021, 2022, 2019))
 
