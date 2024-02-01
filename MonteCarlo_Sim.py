@@ -15,7 +15,7 @@ from Wind_Data import multipro
 #####################################################################################
 
 # Basic Parameters of the Simulation below
-number_of_simulations = 2
+number_of_simulations = 1
 years = [2021, 2022, 2020, 2018]
 max_height = 35000
 date = [2024, 6, 6, 12]
@@ -51,7 +51,7 @@ def simulation(num_sim, date):
         "tip_chord": (0.178, 0.002),
         "Span": (0.127, 0.002),
         "Fin_Position": (5.109, 0.002),
-        "cant_angle": (0, 0.001),
+        "cant_angle": (0, 0.1),
         "sweep_length": (0.469, 0.002),
 
         # Motor Parameters
@@ -201,6 +201,12 @@ def simulation(num_sim, date):
             base_radius=setting["base_radius"],
             rocket_radius=setting["base_radius"],
         )
+
+        nose.k = 3/4
+        nose.y_nosecone = Function(lambda x: nose.base_radius*(x/nose.length)**(nose.k))
+
+
+        
         Big_Liquid.add_surfaces(nose, setting["Nose_Cone_Position"])
 
         # Fin Parameters
