@@ -204,7 +204,9 @@ def simulation(num_sim, date):
 
         nose.k = 3/4
         nose.y_nosecone = Function(lambda x: nose.base_radius*(x/nose.length)**(nose.k))
-
+        nose.evaluate_center_of_pressure()
+        nose.evaluate_geometrical_parameters()
+        nose.evaluate_nose_shape()
 
         
         Big_Liquid.add_surfaces(nose, setting["Nose_Cone_Position"])
