@@ -248,7 +248,7 @@ def simulation(num_sim, date):
             longitude=-117.80820,
             elevation=630,
             datum="WGS84",
-            max_expected_height=26000
+            max_expected_height=max_height
         )
 
         env.set_atmospheric_model(
@@ -314,6 +314,8 @@ def simulation(num_sim, date):
         sys.stdout.write('\r' + message + "".join(bar))
         # feed, so it erases the previous line.
         sys.stdout.flush()
+    
+        
 
 
     inputs.close()
@@ -325,3 +327,5 @@ if __name__ == "__main__":
     multipro(years)
     cov_x, cov_y, mean_x, mean_y, altitude = wind_data(years, max_height)
     simulation(number_of_simulations, date)
+
+
