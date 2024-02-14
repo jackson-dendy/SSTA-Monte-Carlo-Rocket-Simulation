@@ -115,7 +115,10 @@ def simulation(num_sim, date):
 
 
         # Creates the model for the wind data on the current simulation iteration
-        pressure, temperature, wind_u, wind_v = iterator(cov_x, cov_y, mean_x, mean_y, altitude, date)
+        wind_x = iterator(cov_x, mean_x, altitude)
+        wind_y = iterator(cov_y, mean_y, altitude)
+        temperature = iterator(cov_temp, mean_temp, altitude)
+        pressure = iterator(cov_pressure, mean_pressure, altitude)
 
         # for each iteration this loop defines the parameters of the simulation
         setting = {}
@@ -257,8 +260,8 @@ def simulation(num_sim, date):
             type="custom_atmosphere",
             temperature=temperature,
             pressure=pressure,
-            wind_u=wind_u,
-            wind_v=wind_v,
+            wind_u=wind_x,
+            wind_v=wind_y,
         )
 
         # Flight parameters
@@ -319,11 +322,7 @@ def simulation(num_sim, date):
         sys.stdout.write('\r' + message + "".join(bar))
         # feed, so it erases the previous line.
         sys.stdout.flush()
-
-       
-    
-        
-
+        env.all_info()
 
     inputs.close()
     outputs.close()
@@ -332,7 +331,7 @@ def simulation(num_sim, date):
 
 if __name__ == "__main__":
     multipro(years)
-    cov_x, cov_y, mean_x, mean_y, altitude = data_collection(years, max_height)
+    cov_x, cov_y, cov_temp, cov_pressure, mean_x, mean_y, mean_temp, mean_pressure, altitude = data_collection(years, max_height)
     simulation(number_of_simulations, date)
 
 

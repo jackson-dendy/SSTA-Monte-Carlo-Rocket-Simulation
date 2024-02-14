@@ -4,7 +4,7 @@ from rocketpy import Function
 
 
 ################################################################
-# Prediction model using previosly aquired wind data
+# Prediction model using previosly aquired environment data
 ################################################################
 
 # The Below Function generate a covariance and mean matrix in order to use in the iterator function
@@ -70,14 +70,16 @@ def data_collection(year, max_height, sample = 120):
     cov_pressure, mean_pressure = function_gen(final_pressure_data)
     return cov_x, cov_y, cov_temp, cov_pressure, mean_x, mean_y, mean_temp, mean_pressure, altitude
 
-# a function designed to be iterated in a monte carlo simulation and exports the environment parameters to a .json
-def iterator(cov, mean, altitude, date):
+# a function designed to be iterated in a monte carlo simulation and exports the environment parameters
+def iterator(cov, mean, altitude):
+    list = []
     function = np.random.multivariate_normal(mean, cov)
-    function = np.vstack((altitude, function)) 
-   
-
-
-
+    for f in range(np.size(function)):
+        item =[]
+        item.append(altitude[f])
+        item.append(function[f])
+        list.append(item)
+    function = list
     return function
     
 
