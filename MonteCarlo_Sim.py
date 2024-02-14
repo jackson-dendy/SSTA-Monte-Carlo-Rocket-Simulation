@@ -15,7 +15,7 @@ from Wind_Data import multipro
 #####################################################################################
 
 # Basic Parameters of the Simulation below
-number_of_simulations = 3
+number_of_simulations = 25
 years = [2021, 2022, 2020, 2018]
 max_height = 35000
 date = [2024, 6, 6, 12]
@@ -322,8 +322,7 @@ def simulation(num_sim, date):
         sys.stdout.write('\r' + message + "".join(bar))
         # feed, so it erases the previous line.
         sys.stdout.flush()
-        env.all_info()
-
+        
     inputs.close()
     outputs.close()
     print('\n\nYou will find the results in your project folder')
