@@ -43,20 +43,6 @@ def wind_data1(year, month=6, day=6, soundingstation=72388):
             break
     return year
 
-# Creates a file to be written to for the final environment data
-def finalfile(year):
-    ans = Tools.fileexist("Outputs\\WindData\\Final_Wind.json")
-    if ans == True:
-        with open("Final_Wind.json",'w') as w, open("Outputs\\WindData\\Winddata2021.json", "r") as r:
-            w.write(r.read())
-            w.close()
-            r.close()
-        shutil.move("Final_Wind.json", "Outputs\\WindData")
-
-    else:
-        quit()
-
-
 # Multi Process the Environments for speed
 def multipro(year):
         file_make()
@@ -65,7 +51,6 @@ def multipro(year):
             results = p.map(wind_data1, year)
             p.close()
             p.join()
-            finalfile(year)
             for results in results:
                 result.append(results)
             print(result)

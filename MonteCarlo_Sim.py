@@ -4,7 +4,7 @@ from numpy.random import normal, choice
 import xlsxwriter
 import sys
 import Tools
-from Wind_Analysis import wind_data, iterator
+from Environment_Analysis import data_collection, iterator
 from Wind_Data import multipro
 ####################################################################################
 # This code is a Monte Carlo Simulation for the SSTA Big Liquid program
@@ -68,7 +68,7 @@ def simulation(num_sim, date):
         # Flight Parameters
         "rail_length": (6.096, 0.002),
         "inclination": (88, 0.25),
-        "heading": (0, 0.002)
+        "heading": (50, 0.002)
     }
 
     # creates n list of sim number and loading bar
@@ -112,8 +112,10 @@ def simulation(num_sim, date):
 
     # The simulations that are ran are dependent on what the above parameters, and they change each iteration
     for i in range(num_sim):
+
+
         # Creates the model for the wind data on the current simulation iteration
-        iterator(cov_x, cov_y, mean_x, mean_y, altitude, date)
+        pressure, temperature, wind_u, wind_v = iterator(cov_x, cov_y, mean_x, mean_y, altitude, date)
 
         # for each iteration this loop defines the parameters of the simulation
         setting = {}
@@ -253,7 +255,10 @@ def simulation(num_sim, date):
 
         env.set_atmospheric_model(
             type="custom_atmosphere",
-            file="Outputs\\WindData\\Final_Wind.json"
+            temperature=temperature,
+            pressure=pressure,
+            wind_u=wind_u,
+            wind_v=wind_v,
         )
 
         # Flight parameters
@@ -314,6 +319,8 @@ def simulation(num_sim, date):
         sys.stdout.write('\r' + message + "".join(bar))
         # feed, so it erases the previous line.
         sys.stdout.flush()
+
+       
     
         
 
@@ -325,7 +332,7 @@ def simulation(num_sim, date):
 
 if __name__ == "__main__":
     multipro(years)
-    cov_x, cov_y, mean_x, mean_y, altitude = wind_data(years, max_height)
+    cov_x, cov_y, mean_x, mean_y, altitude = data_collection(years, max_height)
     simulation(number_of_simulations, date)
 
 

@@ -31,7 +31,7 @@ def function_gen(matrix):
     return cov, mean
 
 # Exports the covariance and mean matrixes 
-def wind_data(year, max_height, sample = 120):
+def data_collection(year, max_height, sample = 120):
     print("Generating Matrixes \n########################\n")
     wind_x = []
     wind_y = []
@@ -42,6 +42,8 @@ def wind_data(year, max_height, sample = 120):
 
         windyx = data["atmospheric_model_wind_velocity_x_profile"]
         windyy = data["atmospheric_model_wind_velocity_y_profile"]
+        temperature = data["atmospheric_model_temperature_profile"]
+        pressure = data["atmospheric_model_temperature_profile"]
 
         altitude = np.linspace(0,max_height, sample)
 
@@ -66,27 +68,11 @@ def iterator(cov_x, cov_y, mean_x, mean_y, altitude, date):
     functiony = np.random.multivariate_normal(mean_y, cov_y)
     functiony = np.vstack((altitude, functiony)) 
 
-    export(functionx, functiony, date)
-    
-# file export function
-def export(exportx, exporty, date):
-    def list_maker(matrix):
-        matrix = matrix.tolist()
-        return matrix
-    
-    wind_x = list_maker(exportx)
-    wind_y = list_maker(exporty)
 
+
+    return temperature, pressure, wind_u, wind_v
     
-    with open("Outputs\\WindData\\Final_Wind.json", "r") as r:
-        final = json.load(r)
-        final["date"]= date
-        final["atmospheric_model_wind_velocity_x_profile"] = wind_x
-        final["atmospheric_model_wind_velocity_y_profile"] = wind_y
-        r.close()
-    with open("Outputs\\WindData\\Final_Wind.json", "w") as w:
-        w.truncate()
-        json.dump(final, w)
+
         
     
     
