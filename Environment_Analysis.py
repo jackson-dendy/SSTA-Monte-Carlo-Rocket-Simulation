@@ -35,6 +35,8 @@ def data_collection(year, max_height, sample = 120):
     print("Generating Matrixes \n########################\n")
     wind_x = []
     wind_y = []
+    final_temp_data = []
+    final_pressure_data = []
     
     for i in year:
         file = open("Outputs\\WindData\\Winddata{:}.json".format(i))
@@ -49,28 +51,34 @@ def data_collection(year, max_height, sample = 120):
 
         speedx = equal_matrix(windyx,altitude)
         speedy = equal_matrix(windyy,altitude)
+        temp = equal_matrix(temperature,altitude)
+        pres = equal_matrix(pressure,altitude)
 
         wind_x.append(speedx)
         wind_y.append(speedy)
+        final_pressure_data.append(pres)
+        final_temp_data.append(temp)
     
     wind_x = np.concatenate(wind_x, axis=1)
     wind_y = np.concatenate(wind_y, axis=1)
+    final_pressure_data = np.concatenate(final_pressure_data, axis=1)
+    final_temp_data = np.concatenate(final_temp_data, axis=1)
     
     cov_x, mean_x = function_gen(wind_x)
     cov_y, mean_y = function_gen(wind_y)
-
-    return cov_x, cov_y, mean_x, mean_y, altitude
+    cov_temp, mean_temp = function_gen(final_temp_data)
+    cov_pressure, mean_pressure = function_gen(final_pressure_data)
+    return cov_x, cov_y, cov_temp, cov_pressure, mean_x, mean_y, mean_temp, mean_pressure, altitude
 
 # a function designed to be iterated in a monte carlo simulation and exports the environment parameters to a .json
-def iterator(cov_x, cov_y, mean_x, mean_y, altitude, date):
-    functionx = np.random.multivariate_normal(mean_x, cov_x)
-    functionx = np.vstack((altitude, functionx)) 
-    functiony = np.random.multivariate_normal(mean_y, cov_y)
-    functiony = np.vstack((altitude, functiony)) 
+def iterator(cov, mean, altitude, date):
+    function = np.random.multivariate_normal(mean, cov)
+    function = np.vstack((altitude, function)) 
+   
 
 
 
-    return temperature, pressure, wind_u, wind_v
+    return function
     
 
         
