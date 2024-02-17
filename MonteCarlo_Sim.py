@@ -14,14 +14,19 @@ from Wind_Data import multipro
 # Made by Jackson Dendy
 #####################################################################################
 
-# Basic Parameters of the Simulation below
-number_of_simulations = 10
-years = [2021, 2022, 2020, 2018]
-max_height = 35000
-date = [2024, 6, 6, 12]
-# To change Collection date go to Wind_Data and change parameters on the Wind_Data1 function
+def main():
+    # Basic Parameters of the Simulation below
+    number_of_simulations = 10
+    years = [2021, 2022, 2020, 2018]
+    max_height = 35000
+    date = [2024, 6, 6, 12]
+    # To change Collection date go to Wind_Data and change parameters on the Wind_Data1 function
+    multipro(years)
+    cov_x, cov_y, cov_temp, cov_pressure, mean_x, mean_y, mean_temp, mean_pressure, altitude = data_collection(years, max_height)
+    simulation(number_of_simulations, cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitude, max_height)
+    
 
-def simulation(num_sim, date):
+def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitude, max_height):
     # The settings for the simulation the first number is the theoretical value
     # the second is the standard deviation of that value
 
@@ -85,8 +90,8 @@ def simulation(num_sim, date):
         done.append(x)
 
     # Initialize Excel Files and detect previous files
-    print("Initializing Simulation Start Sequence\n")
-    print("##########################################")
+    print("Initializing Simulation Start Sequence")
+    print("##########################################\n")
     ans = Tools.fileexist('Outputs\\MonteCarlo_sim_inputs.xlsx')
     ans2 = Tools.fileexist('Outputs\\MonteCarlo_sim_outputs.xlsx')
     if ans == True and ans2 == True:
@@ -328,8 +333,6 @@ def simulation(num_sim, date):
     print("You ran {} simulations".format(num_sim))
 
 if __name__ == "__main__":
-    multipro(years)
-    cov_x, cov_y, cov_temp, cov_pressure, mean_x, mean_y, mean_temp, mean_pressure, altitude = data_collection(years, max_height)
-    simulation(number_of_simulations, date)
+    main()
 
 
