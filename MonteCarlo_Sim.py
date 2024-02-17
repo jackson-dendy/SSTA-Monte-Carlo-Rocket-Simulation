@@ -15,7 +15,7 @@ from Wind_Data import multipro
 #####################################################################################
 
 # Basic Parameters of the Simulation below
-number_of_simulations = 1
+number_of_simulations = 10
 years = [2021, 2022, 2020, 2018]
 max_height = 35000
 date = [2024, 6, 6, 12]
@@ -63,7 +63,7 @@ def simulation(num_sim, date):
         "nozzle_position": (3.596, 0.002),
         "Burn_time": (12.066, 0.001),
         "propellant_initial_mass": (33.5, 0.5),
-        "Impulse": (73828.591382, 50),
+        "Impulse": (73828.591382, 2),
 
         # Flight Parameters
         "rail_length": (6.096, 0.002),
@@ -118,7 +118,7 @@ def simulation(num_sim, date):
         wind_x = iterator(cov_x, mean_x, altitude)
         wind_y = iterator(cov_y, mean_y, altitude)
         temperature = iterator(cov_temp, mean_temp, altitude)
-        pressure = iterator(cov_pressure, mean_pressure, altitude)
+        #pressure = iterator(cov_pressure, mean_pressure, altitude)
 
         # for each iteration this loop defines the parameters of the simulation
         setting = {}
@@ -259,7 +259,6 @@ def simulation(num_sim, date):
         env.set_atmospheric_model(
             type="custom_atmosphere",
             temperature=temperature,
-            pressure=pressure,
             wind_u=wind_x,
             wind_v=wind_y,
         )
