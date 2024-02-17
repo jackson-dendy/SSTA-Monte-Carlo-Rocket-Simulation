@@ -15,7 +15,7 @@ from Wind_Data import multipro
 #####################################################################################
 
 # Basic Parameters of the Simulation below
-number_of_simulations = 25
+number_of_simulations = 1
 years = [2021, 2022, 2020, 2018]
 max_height = 35000
 date = [2024, 6, 6, 12]
