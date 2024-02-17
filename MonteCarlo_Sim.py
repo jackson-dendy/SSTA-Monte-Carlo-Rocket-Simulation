@@ -153,7 +153,7 @@ def simulation(num_sim, date):
         P6127.exhaust_velocity.set_discrete_based_on_model(P6127.thrust)
 
         cg = Function(
-            source="CSV-S\\CG(OR).csv",
+            source="CSV-S\\CG(Motor).csv",
             inputs="time (s)",
             outputs="CG (m)",
             interpolation="spline",
