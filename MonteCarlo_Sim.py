@@ -334,5 +334,3 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
 
 if __name__ == "__main__":
     main()
-
-

@@ -1,8 +1,6 @@
 from rocketpy import Environment
 import os
 import shutil
-import Tools
-import numpy as np
 import multiprocessing
 
 ########################################################################
