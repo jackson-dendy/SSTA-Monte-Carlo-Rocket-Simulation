@@ -129,7 +129,7 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
         #pressure = iterator(cov_pressure, mean_pressure, altitude)
     
         # Changes Heading Based on Wind Direction
-        setting["heading"] = heading_finder(wind_x[0][1], wind_y[0,1])
+        setting["heading"] = heading_finder(wind_x[0][1], wind_y[0][1])
 
         # for each iteration this loop defines the parameters of the simulation
         setting = {}
