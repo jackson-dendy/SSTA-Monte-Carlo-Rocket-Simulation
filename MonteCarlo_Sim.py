@@ -68,7 +68,7 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
         "nozzle_position": (3.596, 0.002),
         "Burn_time": (12.066, 0.001),
         "propellant_initial_mass": (33.5, 0.5),
-        "Impulse": (73828.591382, 2),
+        "Impulse": (73828.591382, 30),
 
         # Flight Parameters
         "rail_length": (6.096, 0.002),
