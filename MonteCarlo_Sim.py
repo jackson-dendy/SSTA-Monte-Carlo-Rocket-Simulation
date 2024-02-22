@@ -40,8 +40,8 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
         "rocket_inertia_11": (151.7, 0.0001517),
         "rocket_inertia_33": (0.186, 0.000186),
         "Center_of_mass_without_motor": (2.26, 0.0000226),
-        "drogue_drag": (3.456, 0.005),
-        "main_drag": (28.348, 0.005),
+        "drogue_drag": (7.078, 0.005),
+        "main_drag": (113.2, 0.005),
         "power_off_drag": (1, 0.05),
         "power_on_drag": (1, 0.05),
 
@@ -74,7 +74,7 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
         "Impulse": (73828.591382, 30),
 
         # Flight Parameters
-        "rail_length": (6.096, 0.002),
+        "rail_length": (9, 0.002),
         "inclination": (88, 0.25),
         "heading": (50, 0.002)
     }
@@ -202,7 +202,7 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
 
         # Parachute Parameters
         Big_Liquid.add_parachute("drogue", setting["drogue_drag"], "apogee")
-        Big_Liquid.add_parachute("main", setting["main_drag"], 5000)
+        Big_Liquid.add_parachute("main", setting["main_drag"], 3000)
 
         # Imports Hybrid Motor
         Big_Liquid.add_motor(P6127, setting["Motor_Position"])
