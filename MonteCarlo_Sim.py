@@ -18,7 +18,7 @@ from Wind_Data import multipro
 def main():
     # Basic Parameters of the Simulation below
     ###############################
-    number_of_simulations = 1
+    number_of_simulations = 50
     ###############################
     years = [2021, 2022, 2020, 2018, 2019, 2017]
     ###############################
@@ -43,6 +43,7 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
         "Center_of_mass_without_motor": (2.26, 0.0000226),
         "drogue_drag": (7.078, 0.005),
         "main_drag": (113.2, 0.005),
+        "main_deployment" : (914, 5),
         "power_off_drag": (1, 0.05),
         "power_on_drag": (1, 0.05),
 
@@ -205,7 +206,7 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
 
         # Parachute Parameters
         Big_Liquid.add_parachute("drogue", setting["drogue_drag"], "apogee")
-        Big_Liquid.add_parachute("main", setting["main_drag"], 3000)
+        Big_Liquid.add_parachute("main", setting["main_drag"], setting["main_deployment"])
 
         # Imports Hybrid Motor
         Big_Liquid.add_motor(P6127, setting["Motor_Position"])
@@ -282,8 +283,9 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
             inclination=setting["inclination"],
             heading=setting["heading"],
             max_time_step=0.01,
-            max_time=2000,
-            terminate_on_apogee=False
+            terminate_on_apogee=False,
+            max_time = 5000
+
         )
 
         # Selected Returned Values for the flight (can add more)
