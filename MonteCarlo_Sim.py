@@ -77,7 +77,7 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
         # Flight Parameters
         "rail_length": (9, 0.002),
         "inclination": (88, 0.25),
-        "heading": None
+        "heading": [1],
     }
 
     # creates n list of sim number and loading bar
@@ -127,9 +127,6 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
         wind_y = iterator(cov_y, mean_y, altitude)
         temperature = iterator(cov_temp, mean_temp, altitude)
         #pressure = iterator(cov_pressure, mean_pressure, altitude)
-    
-        # Changes Heading Based on Wind Direction
-        setting["heading"] = heading_finder(wind_x[0][1], wind_y[0][1])
 
         # for each iteration this loop defines the parameters of the simulation
         setting = {}
@@ -138,6 +135,9 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
                 setting[parameter_key] = normal(*parameter_value)
             else:
                 setting[parameter_key] = choice(parameter_value)
+
+        # Changes Heading Based on Wind Direction
+        setting["heading"] = heading_finder(wind_x[0][1], wind_y[0][1])
 
         # writes the settings for each simulation iteration
         for g in range(len(setting)):
