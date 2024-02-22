@@ -16,10 +16,13 @@ from Wind_Data import multipro
 
 def main():
     # Basic Parameters of the Simulation below
-    number_of_simulations = 10
-    years = [2021, 2022, 2020, 2018]
-    max_height = 35000
-    date = [2024, 6, 6, 12]
+    ###############################
+    number_of_simulations = 50
+    ###############################
+    years = [2021, 2022, 2020, 2018, 2019, 2017]
+    ###############################
+    max_height = 35000 # in meters
+    ###############################
     # To change Collection date go to Wind_Data and change parameters on the Wind_Data1 function
     multipro(years)
     cov_x, cov_y, cov_temp, cov_pressure, mean_x, mean_y, mean_temp, mean_pressure, altitude = data_collection(years, max_height)
