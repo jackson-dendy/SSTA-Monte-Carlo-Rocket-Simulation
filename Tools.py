@@ -2,6 +2,7 @@ import numpy as np
 import sys
 import shutil
 import os
+import math
 
 ####################################################################
 # File detection function, folder detection function, unit converter
@@ -83,7 +84,6 @@ def folderexist(file1):
         return True
     
 
-
 def fileexist(file1):
     if os.path.exists(file1):
         sys.stdout.write("The file you are creating already exists you may overwrite"
@@ -99,5 +99,10 @@ def fileexist(file1):
     else:
         return True
     
+def heading_finder(wind_x, wind_y):
+    theta = math.degrees(math.atan2(wind_y,wind_x))
+    theta = theta-90
+    heading = 180 + theta
 
-    
+    return heading
+

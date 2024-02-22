@@ -4,6 +4,7 @@ from numpy.random import normal, choice
 import xlsxwriter
 import sys
 import Tools
+from Tools import heading_finder
 from Environment_Analysis import data_collection, iterator
 from Wind_Data import multipro
 ####################################################################################
@@ -76,7 +77,7 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
         # Flight Parameters
         "rail_length": (9, 0.002),
         "inclination": (88, 0.25),
-        "heading": (50, 0.002)
+        "heading": None
     }
 
     # creates n list of sim number and loading bar
@@ -121,12 +122,14 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
     # The simulations that are ran are dependent on what the above parameters, and they change each iteration
     for i in range(num_sim):
 
-
         # Creates the model for the wind data on the current simulation iteration
         wind_x = iterator(cov_x, mean_x, altitude)
         wind_y = iterator(cov_y, mean_y, altitude)
         temperature = iterator(cov_temp, mean_temp, altitude)
         #pressure = iterator(cov_pressure, mean_pressure, altitude)
+    
+        # Changes Heading Based on Wind Direction
+        setting["heading"] = heading_finder(wind_x[0][1], wind_y[0,1])
 
         # for each iteration this loop defines the parameters of the simulation
         setting = {}
