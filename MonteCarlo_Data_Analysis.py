@@ -1,43 +1,119 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.image as img
+from matplotlib.patches import Ellipse
 
 #############################################
 # Analysis code for the output excel sheets
 # from the monte carlo simulation
 ##############################################
 
+class Plots():
 
-res = pd.read_excel("Outputs\\MonteCarlo_sim_outputs.xlsx")
-del res[0]
-length = len(res)
-res = np.array_split(res, length)
-apogee_x = np.array(res[5])
-apogee_y = np.array(res[6])
-impact_x = np.array(res[8])
-impact_y = np.array(res[9])
+    def __init__(self):
+        self.name = "Big Liquid"
+    
+    def disp(self):
+        image = img.imread("C:\\Users\\lejay\\OneDrive - University of Tennessee\\Pictures\\Screenshots\\Screenshot 2024-02-22 171802.png")
+        #image = image[10000:200000]
+        res = pd.read_excel("Outputs\\MonteCarlo_sim_outputs.xlsx")
+        del res[0]
+        length = len(res)
+        res = np.array_split(res, length)
+        apogee_x = np.array(res[5])
+        apogee_y = np.array(res[6])
+        impact_x = np.array(res[8])
+        impact_y = np.array(res[9])
 
-# Creates figure
-plt.figure(num=None, figsize=(6, 6), dpi=150, facecolor="w", edgecolor="k")
 
-# Draw launch point
-plt.scatter(0, 0, s=30, marker="*", color="black", label="Launch Point")
-# Draw apogee points
-plt.scatter(
-    apogee_x, apogee_y, s=5, marker="^", color="green", label="Simulated Apogee"
-)
-# Draw impact points
-plt.scatter(
-    impact_x, impact_y, s=5, marker="v", color="blue", label="Simulated Landing Point"
-)
+        # Creates figure
+        plt.figure(num=None, figsize = (5,5), dpi=150, facecolor="w", edgecolor="k")
+        ax = plt.subplot(111)
+        ax1 = plt.gca()
+        ax1.set_xlim(-8000, 21000)
+        ax1.set_ylim(-8000, 21000)
 
-# Add Labels to plots
-plt.legend(loc=2, prop={'size': 6})
-plt.title("Dispersion Analysis")
-plt.ylabel("North (m)")
-plt.xlabel("East (m)")
+        # Creates Error Ellipses
 
-plt.show()
+        def eigsorted(cov):
+            vals, vecs = np.linalg.eigh(cov)
+            order = vals.argsort()[::-1]
+            return vals[order], vecs[:, order]
+        
+        # Calc Error Ellipses for impact
+        impactCov = np.cov(impact_x, impact_y)
+        impactVals, impactVecs = eigsorted(impactCov)
+        impactTheta = np.degrees(np.arctan2(*impactVecs[:, 0][::-1]))
+        impactW, impactH = 2 * np.sqrt(impactVals)
+
+        # Draw Impact Error Ellipses
+        impact_ellipses = []
+        for j in [1]:
+            impactEll = Ellipse(
+                xy=(np.mean(impact_x), np.mean(impact_y)),
+                width=impactW * j,
+                height=impactH * j,
+                angle=impactTheta,
+                color="black",
+            )
+            impactEll.set_facecolor((0, 0, 1, 0.2))
+            impact_ellipses.append(impactEll)
+            ax.add_artist(impactEll)
+
+        # Calculate error ellipses for apogee
+        apogeeCov = np.cov(apogee_x, apogee_y)
+        apogeeVals, apogeeVecs = eigsorted(apogeeCov)
+        apogeeTheta = np.degrees(np.arctan2(*apogeeVecs[:, 0][::-1]))
+        apogeeW, apogeeH = 2 * np.sqrt(apogeeVals)
+
+        # Draw error ellipses for apogee
+        for j in [1, 2, 3]:
+            apogeeEll = Ellipse(
+                xy=(np.mean(apogee_x), np.mean(apogee_y)),
+                width=apogeeW * j,
+                height=apogeeH * j,
+                angle=apogeeTheta,
+                color="black",
+            )
+            apogeeEll.set_facecolor((0, 1, 0, 0.2))
+            ax.add_artist(apogeeEll)
+
+        # Draw launch point
+        plt.scatter(0, 0, s=30, marker="*", color="black", label="Launch Point")
+        # Draw apogee points
+        plt.scatter(
+            apogee_x, apogee_y, s=5, marker="^", color="green", label="Simulated Apogee"
+        )
+        # Draw impact points
+        plt.scatter(
+            impact_x, impact_y, s=5, marker="v", color="blue", label="Simulated Landing Point"
+        )
+
+        # Add Labels to plots
+        plt.legend(loc=2, prop={'size': 6})
+        plt.title("Dispersion Analysis for Big Liquid")
+        plt.ylabel("North (m)")
+        plt.xlabel("East (m)")
+        plt.imshow(image, extent=[-21000, 21000, -21000, 21000])
+        plt.show()
+    
+    def altitude(self):
+        res = pd.read_excel("Outputs\\MonteCarlo_sim_outputs.xlsx")
+        del res[0]
+        length = len(res)
+        res = np.array_split(res, length)
+        apogee_y = np.array(res[6])
+        plt.hist(apogee_y, bins=int(len(apogee_y)**0.5))
+        plt.title("Apogee Altitude")
+        plt.xlabel("Altitude (m)")
+        plt.ylabel("Number of Occurences")
+        plt.show()
+
+bruh = Plots()
+
+bruh.disp()
+
 
 
 
