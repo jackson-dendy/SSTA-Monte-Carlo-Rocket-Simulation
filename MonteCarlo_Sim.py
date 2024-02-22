@@ -18,7 +18,7 @@ from Wind_Data import multipro
 def main():
     # Basic Parameters of the Simulation below
     ###############################
-    number_of_simulations = 100
+    number_of_simulations = 1
     ###############################
     years = [2021, 2022, 2020, 2018, 2019, 2017]
     ###############################
@@ -282,7 +282,8 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
             inclination=setting["inclination"],
             heading=setting["heading"],
             max_time_step=0.01,
-            max_time=2000
+            max_time=2000,
+            terminate_on_apogee=False
         )
 
         # Selected Returned Values for the flight (can add more)
