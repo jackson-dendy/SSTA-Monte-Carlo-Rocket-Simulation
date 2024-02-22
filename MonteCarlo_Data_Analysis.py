@@ -7,6 +7,9 @@ from matplotlib.patches import Ellipse
 #############################################
 # Analysis code for the output excel sheets
 # from the monte carlo simulation
+# HEAVY USE OF ROCKETPY CODE - Big thank you to
+# the rocket py devs for writing fantastic 
+# documentation
 ##############################################
 
 class Plots():
