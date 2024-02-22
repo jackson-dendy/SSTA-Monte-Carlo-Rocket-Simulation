@@ -18,7 +18,7 @@ from Wind_Data import multipro
 def main():
     # Basic Parameters of the Simulation below
     ###############################
-    number_of_simulations = 50
+    number_of_simulations = 100
     ###############################
     years = [2021, 2022, 2020, 2018, 2019, 2017]
     ###############################
