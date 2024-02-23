@@ -3,6 +3,8 @@ import sys
 import shutil
 import os
 import math
+import pandas as pd
+import numpy as np
 
 ####################################################################
 # File detection function, folder detection function, unit converter
@@ -99,10 +101,25 @@ def fileexist(file1):
     else:
         return True
     
-def heading_finder(wind_x, wind_y):
-    theta = math.degrees(math.atan2(wind_y,wind_x))
+def heading_finder(wind_x, wind_y, altitude):
+    def ema(data):
+        frame = pd.DataFrame([x[1] for x in data], columns = ["A"])
+        ema = frame.ewm(adjust=True, com=23).mean()
+        ema.values.tolist()
+        return ema
+    
+    wind_x = ema(wind_x)
+    wind_y = ema(wind_y)
+
+    
+    theta = math.degrees(math.atan2(np.mean(wind_y),np.mean(wind_x)))
     theta = theta-90
     heading = 180 + theta
 
+
     return heading
+
+
+
+
 
