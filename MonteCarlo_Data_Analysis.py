@@ -52,7 +52,7 @@ class Plots():
 
         # Draw Impact Error Ellipses
         impact_ellipses = []
-        for j in [1]:
+        for j in [1, 2, 3]:
             impactEll = Ellipse(
                 xy=(np.mean(impact_x), np.mean(impact_y)),
                 width=impactW * j,

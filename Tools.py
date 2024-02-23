@@ -101,7 +101,7 @@ def fileexist(file1):
     else:
         return True
     
-def heading_finder(wind_x, wind_y, altitude):
+def heading_finder(wind_x, wind_y):
     def ema(data):
         frame = pd.DataFrame([x[1] for x in data], columns = ["A"])
         ema = frame.ewm(adjust=True, com=23).mean()
@@ -113,8 +113,7 @@ def heading_finder(wind_x, wind_y, altitude):
 
     
     theta = math.degrees(math.atan2(np.mean(wind_y),np.mean(wind_x)))
-    theta = theta-90
-    heading = 180 + theta
+    heading = 90 + theta
 
 
     return heading
