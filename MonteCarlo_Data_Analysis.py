@@ -16,11 +16,11 @@ class Plots():
 
     def __init__(self):
         self.name = "Big Liquid"
+        self.file = "Outputs\\MonteCarlo_sim_outputs.xlsx"
     
     def disp(self):
         image = img.imread("C:\\Users\\lejay\\OneDrive - University of Tennessee\\Pictures\\Screenshots\\Screenshot 2024-02-22 171802.png")
-        #image = image[10000:200000]
-        res = pd.read_excel("Outputs\\MonteCarlo_sim_outputs.xlsx")
+        res = pd.read_excel(self.file)
         del res[0]
         length = len(res)
         res = np.array_split(res, length)
@@ -34,8 +34,8 @@ class Plots():
         plt.figure(num=None, figsize = (5,5), dpi=150, facecolor="w", edgecolor="k")
         ax = plt.subplot(111)
         ax1 = plt.gca()
-        ax1.set_xlim(-8000, 21000)
-        ax1.set_ylim(-8000, 21000)
+        ax1.set_xlim(-8000, 20000)
+        ax1.set_ylim(-8000, 20000)
 
         # Creates Error Ellipses
 
@@ -98,11 +98,11 @@ class Plots():
         plt.title("Dispersion Analysis for Big Liquid")
         plt.ylabel("North (m)")
         plt.xlabel("East (m)")
-        plt.imshow(image, extent=[-21000, 21000, -21000, 21000])
+        plt.imshow(image, extent=[-20000, 20000, -20000, 20000])
         plt.show()
     
     def altitude(self):
-        res = pd.read_excel("Outputs\\MonteCarlo_sim_outputs.xlsx")
+        res = pd.read_excel(self.file)
         del res[0]
         length = len(res)
         res = np.array_split(res, length)

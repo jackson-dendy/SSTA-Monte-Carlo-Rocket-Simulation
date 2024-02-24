@@ -18,7 +18,7 @@ from Wind_Data import multipro
 def main():
     # Basic Parameters of the Simulation below
     ###############################
-    number_of_simulations = 400
+    number_of_simulations = 1
     ###############################
     years = [2021, 2022, 2020, 2018, 2019, 2017]
     ###############################
@@ -264,7 +264,6 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
             latitude=35.3467755,
             longitude=-117.80820,
             elevation=630,
-            datum="WGS84",
             max_expected_height=max_height
         )
 
