@@ -34,8 +34,7 @@ class Plots():
         plt.figure(num=None, figsize = (5,5), dpi=150, facecolor="w", edgecolor="k")
         ax = plt.subplot(111)
         ax1 = plt.gca()
-        ax1.set_xlim(-8000, 20000)
-        ax1.set_ylim(-8000, 20000)
+        
 
         # Creates Error Ellipses
 
@@ -62,7 +61,7 @@ class Plots():
             )
             impactEll.set_facecolor((0, 0, 1, 0.2))
             impact_ellipses.append(impactEll)
-            ax.add_artist(impactEll)
+            #ax.add_artist(impactEll)
 
         # Calculate error ellipses for apogee
         apogeeCov = np.cov(apogee_x, apogee_y)
@@ -80,7 +79,7 @@ class Plots():
                 color="black",
             )
             apogeeEll.set_facecolor((0, 1, 0, 0.2))
-            ax.add_artist(apogeeEll)
+            #ax.add_artist(apogeeEll)
 
         # Draw launch point
         plt.scatter(0, 0, s=30, marker="*", color="black", label="Launch Point")
@@ -99,18 +98,6 @@ class Plots():
         plt.ylabel("North (m)")
         plt.xlabel("East (m)")
         plt.imshow(image, extent=[-20000, 20000, -20000, 20000])
-        plt.show()
-    
-    def altitude(self):
-        res = pd.read_excel(self.file)
-        del res[0]
-        length = len(res)
-        res = np.array_split(res, length)
-        apogee_y = np.array(res[6])
-        plt.hist(apogee_y, bins=int(len(apogee_y)**0.5))
-        plt.title("Apogee Altitude")
-        plt.xlabel("Altitude (m)")
-        plt.ylabel("Number of Occurences")
         plt.show()
 
 bruh = Plots()

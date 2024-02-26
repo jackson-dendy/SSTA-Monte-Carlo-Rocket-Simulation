@@ -138,7 +138,7 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
                 setting[parameter_key] = choice(parameter_value)
 
         # Changes Heading Based on Wind Direction
-        setting["heading"] = heading_finder(wind_x, wind_y)
+        setting["heading"] = heading_finder(wind_x, wind_y, "ema")
 
         # writes the settings for each simulation iteration
         for g in range(len(setting)):
