@@ -101,7 +101,7 @@ def fileexist(file1):
     else:
         return True
     
-def heading_finder(wind_x, wind_y, type):
+def heading_finder(wind_x, wind_y, type, direction = None):
     def ema(data):
         frame = pd.DataFrame([x[1] for x in data], columns = ["A"])
         ema = frame.ewm(adjust=True, com=23).mean()
@@ -115,9 +115,14 @@ def heading_finder(wind_x, wind_y, type):
     if type == "ema":
         wind_x = ema(wind_x)
         wind_y = ema(wind_y)
+
     elif type == "ground":
         wind_x = ground(wind_x)
         wind_y = ground(wind_y)
+
+    elif type == "default":
+        return direction
+    
     else:
         raise ValueError("type parameter must be either ema or ground")
 
@@ -127,6 +132,12 @@ def heading_finder(wind_x, wind_y, type):
 
 
     return heading
+
+        
+
+   
+
+
 
 
 

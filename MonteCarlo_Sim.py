@@ -18,7 +18,7 @@ from Wind_Data import multipro
 def main():
     # Basic Parameters of the Simulation below
     ###############################
-    number_of_simulations = 1
+    number_of_simulations = 3
     ###############################
     years = [2021, 2022, 2020, 2018, 2019, 2017]
     ###############################
@@ -34,6 +34,8 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
     # The settings for the simulation the first number is the theoretical value
     # the second is the standard deviation of that value
 
+    # ft to m conversion factor is 0.3048
+
     analysis_parameters = {
         # Rocket
         "radius_rocket": (0.0785, 0.0003),
@@ -41,9 +43,11 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
         "rocket_inertia_11": (151.7, 0.0001517),
         "rocket_inertia_33": (0.186, 0.000186),
         "Center_of_mass_without_motor": (2.26, 0.0000226),
-        "drogue_drag": (1.824, 0.005),
-        "main_drag": (21.986, 0.005),
-        "main_deployment" : (914, 5),
+        "drogue_radius": (0.762, 0.005),
+        "drogue_drag":[0.97],
+        "main_radius": (1.8288, 0.005),
+        "main_drag":[2.2],
+        "main_deployment" : (914.4, 3),
         "power_off_drag": (1, 0.05),
         "power_on_drag": (1, 0.05),
 
@@ -134,11 +138,17 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
         for parameter_key, parameter_value in analysis_parameters.items():
             if type(parameter_value) is tuple:
                 setting[parameter_key] = normal(*parameter_value)
+
+            elif type(parameter_value) is str:
+                setting[parameter_key] = parameter_value
+
             else:
                 setting[parameter_key] = choice(parameter_value)
 
         # Changes Heading Based on Wind Direction
         setting["heading"] = heading_finder(wind_x, wind_y, "ema")
+
+        
 
         # writes the settings for each simulation iteration
         for g in range(len(setting)):
@@ -205,9 +215,11 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
         )
 
         # Parachute Parameters
-        Big_Liquid.add_parachute("drogue", setting["drogue_drag"], "apogee")
-        Big_Liquid.add_parachute("main", setting["main_drag"], setting["main_deployment"])
-
+        if setting["main_deployment"] == "apogee":
+            Big_Liquid.add_parachute("main", (((setting["main_radius"]/2)**2)*3.14)*setting["main_drag"], setting["main_deployment"])
+        else:
+            Big_Liquid.add_parachute("drogue", (((setting["drogue_radius"]/2)**2)*3.14)*setting["drogue_drag"] , "apogee")
+            Big_Liquid.add_parachute("main", (((setting["main_radius"]/2)**2)*3.14)*setting["main_drag"], setting["main_deployment"])
         # Imports Hybrid Motor
         Big_Liquid.add_motor(P6127, setting["Motor_Position"])
 

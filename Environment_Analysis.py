@@ -10,6 +10,7 @@ from rocketpy import Function
 # The Below Function generate a covariance and mean matrix in order to use in the iterator function
 
 # Greates equal sized matrix with equivelant y values for every wind data collection
+
 def equal_matrix(windy,altitude):
        
     func = Function(
@@ -83,6 +84,6 @@ def iterator(cov, mean, altitude):
     return function
     
 
-        
+
     
     
