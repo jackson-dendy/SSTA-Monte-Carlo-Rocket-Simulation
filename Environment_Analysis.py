@@ -82,8 +82,3 @@ def iterator(cov, mean, altitude):
         list.append(item)
     function = list
     return function
-    
-
-
-    
-    
