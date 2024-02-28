@@ -19,7 +19,6 @@ class Plots():
         self.file = "Outputs\\MonteCarlo_sim_outputs.xlsx"
     
     def disp(self):
-        #image = img.imread("C:\\Users\\lejay\\OneDrive - University of Tennessee\\Pictures\\Screenshots\\Screenshot 2024-02-22 171802.png")
         res = pd.read_excel(self.file)
         del res[0]
         length = len(res)
@@ -61,7 +60,7 @@ class Plots():
             )
             impactEll.set_facecolor((0, 0, 1, 0.2))
             impact_ellipses.append(impactEll)
-            #ax.add_artist(impactEll)
+            ax.add_artist(impactEll)
 
         # Calculate error ellipses for apogee
         apogeeCov = np.cov(apogee_x, apogee_y)
@@ -79,7 +78,7 @@ class Plots():
                 color="black",
             )
             apogeeEll.set_facecolor((0, 1, 0, 0.2))
-            #ax.add_artist(apogeeEll)
+            ax.add_artist(apogeeEll)
 
         # Draw launch point
         plt.scatter(0, 0, s=30, marker="*", color="black", label="Launch Point")
@@ -97,10 +96,27 @@ class Plots():
         plt.title("Dispersion Analysis for Big Liquid")
         plt.ylabel("North (m)")
         plt.xlabel("East (m)")
-        #plt.imshow(image, extent=[-20000, 20000, -20000, 20000])
         plt.show()
 
     def gee_disp(self, lat, long):
+
+        def markers():
+            None
+        center = str(lat) + str(long)
+        zoom = None
+        size = [None, None]
+        signiture = "AIzaSyAFHAl7iFu67xgd42cESd-IDAePeMrOUnY"
+        url = f"https://maps.googleapis.com/maps/api/staticmap?center={center}&zoom={zoom}&size={str(size[0])+"x"+str(size[1])}&key=&signature={signiture}"
+
+        image = img.read(url)
+
+        plt.legend(loc=2, prop={'size': 6})
+        plt.title("Dispersion Analysis for Big Liquid")
+        plt.ylabel("North (m)")
+        plt.xlabel("East (m)")
+        plt.imshow(image, extent = [None, None, None, None])
+        plt.imshow()
+        plt.show()
         
 
 bruh = Plots()
