@@ -50,7 +50,7 @@ class Plots():
         impactW, impactH = 2 * np.sqrt(impactVals)
 
         # Draw Impact Error Ellipses
-        impact_ellipses = []
+        impact_ellipses = [1, 2, 3]
         for j in [1, 2, 3]:
             impactEll = Ellipse(
                 xy=(np.mean(impact_x), np.mean(impact_y)),
@@ -61,7 +61,7 @@ class Plots():
             )
             impactEll.set_facecolor((0, 0, 1, 0.2))
             impact_ellipses.append(impactEll)
-            #ax.add_artist(impactEll)
+            ax.add_artist(impactEll)
 
         # Calculate error ellipses for apogee
         apogeeCov = np.cov(apogee_x, apogee_y)
@@ -79,7 +79,7 @@ class Plots():
                 color="black",
             )
             apogeeEll.set_facecolor((0, 1, 0, 0.2))
-            #ax.add_artist(apogeeEll)
+            ax.add_artist(apogeeEll)
 
         # Draw launch point
         plt.scatter(0, 0, s=30, marker="*", color="black", label="Launch Point")
