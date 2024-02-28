@@ -19,7 +19,7 @@ class Plots():
         self.file = "Outputs\\MonteCarlo_sim_outputs.xlsx"
     
     def disp(self):
-        image = img.imread("C:\\Users\\lejay\\OneDrive - University of Tennessee\\Pictures\\Screenshots\\Screenshot 2024-02-22 171802.png")
+        #image = img.imread("C:\\Users\\lejay\\OneDrive - University of Tennessee\\Pictures\\Screenshots\\Screenshot 2024-02-22 171802.png")
         res = pd.read_excel(self.file)
         del res[0]
         length = len(res)
@@ -97,7 +97,7 @@ class Plots():
         plt.title("Dispersion Analysis for Big Liquid")
         plt.ylabel("North (m)")
         plt.xlabel("East (m)")
-        plt.imshow(image, extent=[-20000, 20000, -20000, 20000])
+        #plt.imshow(image, extent=[-20000, 20000, -20000, 20000])
         plt.show()
 
 bruh = Plots()
