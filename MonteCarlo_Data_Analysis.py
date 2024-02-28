@@ -100,6 +100,9 @@ class Plots():
         #plt.imshow(image, extent=[-20000, 20000, -20000, 20000])
         plt.show()
 
+    def gee_disp(self, lat, long):
+        
+
 bruh = Plots()
 
 bruh.disp()
