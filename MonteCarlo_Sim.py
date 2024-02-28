@@ -40,10 +40,10 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
     analysis_parameters = {
         # Rocket
         "radius_rocket": (0.0785, 0.0003),
-        "rocket_mass": (25.85, 0.001),
+        "rocket_mass": (23.139, 0.001),
         "rocket_inertia_11": (151.7, 0.0001517),
         "rocket_inertia_33": (0.186, 0.000186),
-        "Center_of_mass_without_motor": (2.26, 0.0000226),
+        "Center_of_mass_without_motor": (2.55, 0.0000226),
         "drogue_radius": (0.762, 0.005),
         "drogue_drag":[0.97],
         "main_radius": (1.8288, 0.005),
@@ -53,31 +53,31 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
         "power_on_drag": (1, 0.05),
 
         # Motor Position
-        "Motor_Position": (2.148, 0.0003),
+        "Motor_Position": (2.4384, 0.0003),
 
         # Nose Cone parameters
-        "Nose_Cone_Length": (0.914, 0.0002),
+        "Nose_Cone_Length": (0.9144, 0.0002),
         "base_radius": (0.0785, 0.0003),
         "Nose_Cone_Position": [0],
 
         # Fins Parameters
         "Num_Fins": [4],
-        "Root_Chord": (0.559, 0.002),
-        "tip_chord": (0.178, 0.002),
+        "Root_Chord": (0.457, 0.002),
+        "tip_chord": (0.127, 0.002),
         "Span": (0.127, 0.002),
         "Fin_Position": (5.109, 0.002),
         "cant_angle": (0, 0.1),
-        "sweep_length": (0.469, 0.002),
+        "sweep_length": (0.406, 0.002),
 
         # Motor Parameters
-        "dry_mass": (28.35, 0.002),
+        "dry_mass": (28.305, 0.002),
         "motor_inertia_11": (29.2998, 0.0002),
         "motor_inertia_33": (0.08184, 0.0002),
         "nozzle_radius": (0.45466, 0.0002),
         "Center_of_mass_motor": (1.7067, 0.001),
         "nozzle_position": (3.596, 0.002),
         "Burn_time": (12.066, 0.001),
-        "propellant_initial_mass": (33.5, 0.5),
+        "propellant_initial_mass": (33.495, 0.5),
         "Impulse": (73828.591382, 30),
 
         # Flight Parameters
