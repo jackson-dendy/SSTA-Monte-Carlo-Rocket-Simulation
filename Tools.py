@@ -133,45 +133,45 @@ def heading_finder(wind_x, wind_y, type, direction = None):
 
     return heading
 
-def log_dec(x1,x2):
-    gamma = math.log(x1/x2)
+def damp_coe(flight, motor, rocket):
+    # Damping Ratio Model
+    v ={
+        "mass": (motor.total_mass + rocket.mass), # mass by time
+        "mdot": (motor.total_mass + rocket.mass).derivative_function(), # derivative of above
+        "nose_to_nozzle": rocket.nozzle_position, # distance from nozzle to tip
+        "cg":rocket.evaluate_center_of_mass(), # distance from tip to cg
+        "density": flight.density, # density of air
+        "velocity": flight.speed, # velocity of rocket 
+        "area": rocket.area, # reference area
+        "d cp to component": None, 
+        "normal coe component": None,
+        "normal_coe": flight.aerodynamic_lift/(flight.dynamic_pressure * rocket.area), # normal force coeficient
+        "cp":rocket.evaluate_center_of_pressure() - rocket.evaluate_center_of_mass(), # d that cg is in front of cp
+        "radius": rocket.radius
+    }
+    
+    #  Propulsive Damping Moment Coefficient
+    C2R = v["mdot"] * (v["nose_to_nozzle"] - v["cg"])**2
 
-    zeta = gamma/(math.sqrt(4*pow((math.pi), 2) + pow(gamma, 2)))
+    #  Aerodynamic Damping Moment Coefficient
+    C2A = ((v["density"] * v["velocity"] * v["area"])/2) *  v["normal_coe"]* (v["cg"] - v["cp"])**2  
+                                                                # ^this is where the sum would go currently it is stupid version
+    # Damping Moment Coe                                   
+    C2 = C2R + C2A
+
+    # Longitudinal Moment of Inertia
+    L2 = 0.5 * v["mass"] * (v["radius"]**2)
+
+    # Corrective Moment Coefficient
+    CL = (v["density"]/2) * (v["velocity"]**2) * v["area"] * (v["normal_coe"] * (v["cg"] - v["cp"]))
+ 
+    # Damping Ratio
+    zeta = pow(pow(C2/pow(CL * L2, 0.5), 2), 0.5) # this is negative so I did absolute value btw I relize there is abs function 
+                                                    # but it doesnt work with this FUNCTION class
 
     return zeta
 
-def damp_coe(flight, motor, rocket):
-    v ={
-        "m": (motor.total_mass + rocket.mass), # mass by time
-        "mdot": (motor.total_mass + rocket.mass).derivative_function(), # derivative of above
-        "lne": rocket.nozzle_position, # distance from nozzle to tip
-        "W(t)":rocket.evaluate_center_of_mass(), # distance from tip to cg
-        "rho": flight.density, # density of air
-        "v": flight.speed, # velocity of rocket 
-        "ra": rocket.area, # reference area
-        "d cp to component": None, 
-        "normal coe component": None,
-        "nc": flight.aerodynamic_lift/(flight.dynamic_pressure * rocket.area), # normal force coeficient
-        "Z":rocket.evaluate_center_of_pressure() - rocket.evaluate_center_of_mass(), # d that cg is in front of cp
-        "r": rocket.radius
-    }
     
-    C2R = v["mdot"] * (v["lne"] - v["W(t)"])**2
-                       
-    C2A = ((v["rho"]*v["v"] * v["ra"])/2) * v["nc"]* (v["W(t)"] - v["Z"])**2
 
-    C2 = C2R + C2A
-
-    L2 = 0.5 * v["m"] * (v["r"]**2)
-
-    CL = (v["rho"]/2) * (v["v"]**2) * v["ra"] * (v["nc"]* (v["W(t)"] - v["Z"]))
- 
-
-    zeta = C2/pow(CL * L2, 0.5)
-
-    zeta = zeta.set_discrete(lower = 1, upper = 50, mutate_self = False)
-
-    zeta.set_title("Dynamic Stability")
-
-    zeta.plot()
+    
     

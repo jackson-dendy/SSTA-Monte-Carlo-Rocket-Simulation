@@ -296,8 +296,7 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
             heading=setting["heading"],
             max_time_step=0.01,
             terminate_on_apogee=False,
-            max_time = 5000
-
+            max_time = 50
         )
 
         # Selected Returned Values for the flight (can add more)
@@ -323,10 +322,10 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
             "number_of_events": len(flight_data.parachute_events),
         }
 
-        damp_coe(flight_data, P6127, Big_Liquid)
+        # Plots Dampeing by time
+        zeta = damp_coe(flight_data, P6127, Big_Liquid)
 
-
-       
+        Function.compare_plots([(flight_data.angle_of_attack, "AOA"), (zeta, "Damping Coe")], lower = 1, upper = 60)
 
 
         # writes flight result titles to the output file for the first iteration
