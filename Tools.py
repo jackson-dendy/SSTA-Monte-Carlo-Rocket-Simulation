@@ -139,3 +139,39 @@ def log_dec(x1,x2):
     zeta = gamma/(math.sqrt(4*pow((math.pi), 2) + pow(gamma, 2)))
 
     return zeta
+
+def damp_coe(flight, motor, rocket):
+    v ={
+        "m": (motor.total_mass + rocket.mass), # mass by time
+        "mdot": (motor.total_mass + rocket.mass).derivative_function(), # derivative of above
+        "lne": rocket.nozzle_position, # distance from nozzle to tip
+        "W(t)":rocket.evaluate_center_of_mass(), # distance from tip to cg
+        "rho": flight.density, # density of air
+        "v": flight.speed, # velocity of rocket 
+        "ra": rocket.area, # reference area
+        "d cp to component": None, 
+        "normal coe component": None,
+        "nc": flight.aerodynamic_lift/(flight.dynamic_pressure * rocket.area), # normal force coeficient
+        "Z":rocket.evaluate_center_of_pressure() - rocket.evaluate_center_of_mass(), # d that cg is in front of cp
+        "r": rocket.radius
+    }
+    
+    C2R = v["mdot"] * (v["lne"] - v["W(t)"])**2
+                       
+    C2A = ((v["rho"]*v["v"] * v["ra"])/2) * v["nc"]* (v["W(t)"] - v["Z"])**2
+
+    C2 = C2R + C2A
+
+    L2 = 0.5 * v["m"] * (v["r"]**2)
+
+    CL = (v["rho"]/2) * (v["v"]**2) * v["ra"] * (v["nc"]* (v["W(t)"] - v["Z"]))
+ 
+
+    zeta = C2/pow(CL * L2, 0.5)
+
+    zeta = zeta.set_discrete(lower = 1, upper = 50, mutate_self = False)
+
+    zeta.set_title("Dynamic Stability")
+
+    zeta.plot()
+    

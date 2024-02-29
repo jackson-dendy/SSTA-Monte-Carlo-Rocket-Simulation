@@ -4,10 +4,10 @@ from numpy.random import normal, choice
 import xlsxwriter
 import sys
 import Tools
-from Tools import heading_finder
+from Tools import heading_finder, damp_coe
 from Environment_Analysis import data_collection, iterator
 from Wind_Data import multipro
-from rocketpy.plots.flight_plots import _FlightPlots
+from rocketpy.plots.motor_plots import _MotorPlots
 ####################################################################################
 # This code is a Monte Carlo Simulation for the SSTA Big Liquid program
 # To run this code more sure to install the rocketpy, numpy, and xlsxwriter ibraries
@@ -19,14 +19,14 @@ from rocketpy.plots.flight_plots import _FlightPlots
 def main():
     # Basic Parameters of the Simulation below
     ###############################
-    number_of_simulations = 2000
+    number_of_simulations = 1
     ###############################
     years = [2021, 2022, 2020, 2018, 2019, 2017]
     ###############################
     max_height = 25000 # in meters
     ###############################
     # To change Collection date go to Wind_Data and change parameters on the Wind_Data1 function
-    multipro(years)
+    #multipro(years)
     cov_x, cov_y, cov_temp, cov_pressure, mean_x, mean_y, mean_temp, mean_pressure, altitude = data_collection(years, max_height)
     simulation(number_of_simulations, cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitude, max_height)
     
@@ -322,6 +322,12 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
             ),
             "number_of_events": len(flight_data.parachute_events),
         }
+
+        damp_coe(flight_data, P6127, Big_Liquid)
+
+
+       
+
 
         # writes flight result titles to the output file for the first iteration
         row = 1
