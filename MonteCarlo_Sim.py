@@ -4,7 +4,6 @@ from numpy.random import normal, choice
 import xlsxwriter
 import sys
 import Tools
-from Tools import heading_finder
 from Environment_Analysis import data_collection, iterator
 from Wind_Data import multipro
 from rocketpy.plots.flight_plots import _FlightPlots
@@ -100,19 +99,23 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
         done.append(x)
 
     # Initialize Excel Files and detect previous files
+    input_name = 'Outputs\\MonteCarlo_sim_inputs.xlsx'
+    output_name  = 'Outputs\\MonteCarlo_sim_outputs.xlsx'
+    wind_file_name = 'Outputs\\MonteCarlo_sim_wind.xlsx'
     print("Initializing Simulation Start Sequence")
     print("##########################################\n")
-    ans = Tools.fileexist('Outputs\\MonteCarlo_sim_inputs.xlsx')
-    ans2 = Tools.fileexist('Outputs\\MonteCarlo_sim_outputs.xlsx')
-    if ans == True and ans2 == True:
+    ans = Tools.fileexist(input_name)
+    ans2 = Tools.fileexist(output_name)
+    ans3 = Tools.fileexist(wind_file_name)
+    if ans == True and ans2 == True and ans3 == True:
         print("\n\nInitializing Monte Carlo Simulation")
         print("******************************************\n\n")
     else:
         quit()
-    inputs = xlsxwriter.Workbook('Outputs\\MonteCarlo_sim_inputs.xlsx')
-    outputs = xlsxwriter.Workbook("Outputs\\MonteCarlo_sim_outputs.xlsx")
-    inp = inputs.add_worksheet()
-    out = outputs.add_worksheet()
+    
+    inputs, inp = Tools.excelmaker(input_name)
+    outputs, out = Tools.excelmaker(input_name)
+    wind_file, wind_out = Tools.excelmaker(wind_file_name)
 
     # Writes the simulation number to out and in file and input parameter names to the input files
     col = 0
@@ -134,6 +137,8 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
         temperature = iterator(cov_temp, mean_temp, altitude)
         #pressure = iterator(cov_pressure, mean_pressure, altitude)
 
+        
+
         # for each iteration this loop defines the parameters of the simulation
         setting = {}
         for parameter_key, parameter_value in analysis_parameters.items():
@@ -147,7 +152,7 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
                 setting[parameter_key] = choice(parameter_value)
 
         # Changes Heading Based on Wind Direction
-        setting["heading"] = heading_finder(wind_x, wind_y, "ema")
+        setting["heading"] = Tools.heading_finder(wind_x, wind_y, "ema")
 
         
 
@@ -350,6 +355,7 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
         
     inputs.close()
     outputs.close()
+    wind_file.close()
     print('\n\nYou will find the results in your project folder')
     print("You ran {} simulations".format(num_sim))
 

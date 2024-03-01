@@ -5,6 +5,7 @@ import os
 import math
 import pandas as pd
 import numpy as np
+import xlsxwriter
 
 ####################################################################
 # File detection function, folder detection function, unit converter
@@ -73,7 +74,7 @@ def cf(from_unit, to_unit):
 
 def folderexist(file1):
     if os.path.exists(file1):
-        ans = input("The file you are creating already exists you may overwrite"
+        ans = input(f"{file1} already exists you may overwrite"
                     "data if you proceed.\nDo you wish to proceed? ") 
         ans = ans.lower()
         ans = ans.capitalize()
@@ -88,7 +89,7 @@ def folderexist(file1):
 
 def fileexist(file1):
     if os.path.exists(file1):
-        sys.stdout.write("The file you are creating already exists you may overwrite"
+        sys.stdout.write(f"{file1} already exists you may overwrite"
                     "data if you proceed.\nDo you wish to proceed? ")
         ans = input("")
         ans = ans.lower()
@@ -100,6 +101,12 @@ def fileexist(file1):
             return False
     else:
         return True
+    
+def excelmaker(name):  
+    file = xlsxwriter.Workbook(name)
+    file_edit = file.add_worksheet()
+    return file, file_edit
+
     
 def heading_finder(wind_x, wind_y, type, direction = None):
     def ema(data):
