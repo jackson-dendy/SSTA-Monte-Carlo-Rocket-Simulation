@@ -146,3 +146,18 @@ def log_dec(x1,x2):
     zeta = gamma/(math.sqrt(4*pow((math.pi), 2) + pow(gamma, 2)))
 
     return zeta
+
+
+def wind_export(functionx, functiony, worksheet, shift):
+
+    worksheet.write(0, 2*shift+1, "x")
+    worksheet.write(0, 2*shift+2, "y")
+
+    for i, x in enumerate(functionx):
+        if shift == 0:
+            worksheet.write(i+1, 0, x[0])
+        worksheet.write(i+1, 2*shift+1, x[1])
+        
+    for i, y in enumerate(functiony):
+        worksheet.write(i+1, 2*shift+2, y[1])
+    

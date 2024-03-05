@@ -1,7 +1,6 @@
 from rocketpy import Rocket, Environment, Function, GenericMotor, Flight, NoseCone
 import numpy
 from numpy.random import normal, choice
-import xlsxwriter
 import sys
 import Tools
 from Environment_Analysis import data_collection, iterator
@@ -18,7 +17,7 @@ from rocketpy.plots.flight_plots import _FlightPlots
 def main():
     # Basic Parameters of the Simulation below
     ###############################
-    number_of_simulations = 2000
+    number_of_simulations = 2
     ###############################
     years = [2021, 2022, 2020, 2018, 2019, 2017]
     ###############################
@@ -114,7 +113,7 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
         quit()
     
     inputs, inp = Tools.excelmaker(input_name)
-    outputs, out = Tools.excelmaker(input_name)
+    outputs, out = Tools.excelmaker(output_name)
     wind_file, wind_out = Tools.excelmaker(wind_file_name)
 
     # Writes the simulation number to out and in file and input parameter names to the input files
@@ -137,7 +136,7 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
         temperature = iterator(cov_temp, mean_temp, altitude)
         #pressure = iterator(cov_pressure, mean_pressure, altitude)
 
-        
+        Tools.wind_export(wind_x, wind_y, wind_out, i)
 
         # for each iteration this loop defines the parameters of the simulation
         setting = {}

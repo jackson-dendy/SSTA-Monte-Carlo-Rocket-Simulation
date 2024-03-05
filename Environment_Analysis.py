@@ -1,7 +1,8 @@
 import json
 import numpy as np
 from rocketpy import Function
-from Tools import fileexist
+
+
 
 
 ################################################################
@@ -84,5 +85,5 @@ def iterator(cov, mean, altitude):
     function = list
     return function
 
-def wind_export(function, name):
-    
+
+
