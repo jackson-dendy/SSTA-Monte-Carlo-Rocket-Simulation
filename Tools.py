@@ -140,13 +140,6 @@ def heading_finder(wind_x, wind_y, type, direction = None):
 
     return heading
 
-def log_dec(x1,x2):
-    gamma = math.log(x1/x2)
-
-    zeta = gamma/(math.sqrt(4*pow((math.pi), 2) + pow(gamma, 2)))
-
-    return zeta
-
 
 def wind_export(functionx, functiony, worksheet, shift):
 
