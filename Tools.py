@@ -6,6 +6,7 @@ import math
 import pandas as pd
 import numpy as np
 import xlsxwriter
+from rocketpy.mathutils.function import Function
 
 ####################################################################
 # File detection function, folder detection function, unit converter
