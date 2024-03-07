@@ -101,11 +101,13 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
     input_name = 'Outputs\\MonteCarlo_sim_inputs.xlsx'
     output_name  = 'Outputs\\MonteCarlo_sim_outputs.xlsx'
     wind_file_name = 'Outputs\\MonteCarlo_sim_wind.xlsx'
+    outputs_by_time = 'Outputs\\MonteCarlo_sim_outputs_by_time.xlsx'
     print("Initializing Simulation Start Sequence")
     print("##########################################\n")
     ans = Tools.fileexist(input_name)
     ans2 = Tools.fileexist(output_name)
     ans3 = Tools.fileexist(wind_file_name)
+    ans4 = Tools.fileexist(outputs_by_time)
     if ans == True and ans2 == True and ans3 == True:
         print("\n\nInitializing Monte Carlo Simulation")
         print("******************************************\n\n")
@@ -119,14 +121,19 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
     # Writes the simulation number to out and in file and input parameter names to the input files
     col = 0
     row = 1
+    
     for n in lst:
         out.write(0, col, n)
-        inp.write(0, col, n)
+        inp.write(0, col+1, n)
         col += 1
     for p in analysis_parameters.keys():
         inp.write(row, 0, p)
+        if type(analysis_parameters[p]) is tuple:
+            inp.write(row, 1, analysis_parameters[p][1])
+        else:
+            inp.write(row, 1, "NAN")
         row += 1
-
+    inp.write(0, 1, "Std Dev")
     # The simulations that are ran are dependent on what the above parameters, and they change each iteration
     for i in range(num_sim):
 
@@ -157,7 +164,7 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
 
         # writes the settings for each simulation iteration
         for g in range(len(setting)):
-            inp.write(g+1, i+1, list(setting.values())[g])
+            inp.write(g+1, i+2, list(setting.values())[g])
 
         # Motor Object
         P6127 = GenericMotor(
@@ -327,6 +334,7 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
             "number_of_events": len(flight_data.parachute_events),
         }
 
+        #Tools.Outputs_by_time(flight_data, num_sim)
         
         # writes flight result titles to the output file for the first iteration
         row = 1

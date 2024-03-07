@@ -156,7 +156,13 @@ def wind_export(functionx, functiony, worksheet, shift):
     for i, y in enumerate(functiony):
         worksheet.write(i+1, 2*shift+2, y[1])
 
-def Outputs_by_time(flight, worksheet):
+#def Outputs_by_time(flight, sims, worksheet):
+#    time = 0
+#    steps = flight.time_steps
+
+#    for i in
+
+def damping_ratio() 
 
     
     
