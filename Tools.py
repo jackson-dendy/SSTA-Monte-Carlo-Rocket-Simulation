@@ -144,8 +144,9 @@ def heading_finder(wind_x, wind_y, type, direction = None):
 
 def wind_export(functionx, functiony, worksheet, shift):
 
-    worksheet.write(0, 2*shift+1, "x")
-    worksheet.write(0, 2*shift+2, "y")
+    worksheet.write(0,0,"m")
+    worksheet.write(0, 2*shift+1, "x (m/s)")
+    worksheet.write(0, 2*shift+2, "y (m/s)")
 
     for i, x in enumerate(functionx):
         if shift == 0:
@@ -154,4 +155,8 @@ def wind_export(functionx, functiony, worksheet, shift):
         
     for i, y in enumerate(functiony):
         worksheet.write(i+1, 2*shift+2, y[1])
+
+def Outputs_by_time(flight, worksheet):
+
+    
     

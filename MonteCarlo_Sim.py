@@ -327,7 +327,7 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
             "number_of_events": len(flight_data.parachute_events),
         }
 
-
+        
         # writes flight result titles to the output file for the first iteration
         row = 1
         if i == 0:
@@ -335,7 +335,7 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
                 out.write(row, 0, o)
                 row += 1
         else:
-            pass
+            pass    
 
         # Writes flight results to the output file
         for h in range(len(flight_result)):

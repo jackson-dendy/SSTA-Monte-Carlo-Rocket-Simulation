@@ -17,6 +17,7 @@ class Plots():
     def __init__(self):
         self.name = "Big Liquid"
         self.file = "Outputs\\MonteCarlo_sim_outputs.xlsx"
+        self.wind = "Outputs\\MonteCarlo_sim_wind.xlsx"
     
     def disp(self):
         #image = img.imread("C:\\Users\\lejay\\OneDrive - University of Tennessee\\Pictures\\Screenshots\\Screenshot 2024-02-22 171802.png")
@@ -100,9 +101,36 @@ class Plots():
         #plt.imshow(image, extent=[-20000, 20000, -20000, 20000])
         plt.show()
 
+    def wind_plot(self, plots):
+
+        res = pd.read_excel(self.wind)
+       
+        for i in range(plots):
+            plot = plt.figure(num=None, figsize = (7,5), dpi=125, facecolor="w", edgecolor="k")
+            plt.title("Wind Velocity X and Y")
+            plt.xlabel("Velocity (m/s)")
+            plt.ylabel("Altitude (m)")
+            if i == 0:
+                plt.plot(res["x (m/s)"], res['m'], label = "x velocity")
+                plt.plot(res["y (m/s)"], res['m'], label= "y velocity")
+                plt.legend(loc=1, prop={'size': 6})
+                plt.show()
+                continue
+            else:
+                header = f".{i}"
+
+            plt.plot(res[f"x (m/s){header}"], res['m'], label= "x velocity")
+            plt.plot(res[f"y (m/s){header}"], res['m'], label = "y velocity")
+            plt.legend(loc=1, prop={'size': 6})
+            plt.show()
+
+
+        
+
+
 bruh = Plots()
 
-bruh.disp()
+bruh.wind_plot(1)
 
 
 
