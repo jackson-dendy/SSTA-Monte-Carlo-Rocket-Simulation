@@ -17,7 +17,7 @@ from rocketpy.plots.flight_plots import _FlightPlots
 def main():
     # Basic Parameters of the Simulation below
     ###############################
-    number_of_simulations = 2
+    number_of_simulations = 1
     ###############################
     years = [2021, 2022, 2020, 2018, 2019, 2017]
     ###############################
@@ -334,6 +334,7 @@ def simulation(num_sim,cov_x, cov_y, cov_temp, mean_x, mean_y, mean_temp, altitu
             "number_of_events": len(flight_data.parachute_events),
         }
 
+        flight_data.attitude_frequency_response()
         #Tools.Outputs_by_time(flight_data, num_sim)
         
         # writes flight result titles to the output file for the first iteration

@@ -162,7 +162,13 @@ def wind_export(functionx, functiony, worksheet, shift):
 
 #    for i in
 
-def damping_ratio() 
+def damping_ratio(flight):
+    aoa = flight.angle_of_attack
+    windows = np.linspace(0, flight.t_final, 5)
+
+    
+
+
 
     
     

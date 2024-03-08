@@ -126,11 +126,19 @@ class Plots():
 
 
         
-
+    def wind_speed(self):
+        res = pd.read_excel(self.wind)
+        plt.figure(num=None, figsize = (7,5), dpi=125, facecolor="w", edgecolor="k")
+        plt.plot( res["Unnamed: 1"], res["m"],)
+        plt.title("Wind Speed")
+        plt.xlabel("Speed (m/s)")
+        plt.ylabel("Altitude (m)")
+        plt.show()
+    
 
 bruh = Plots()
 
-bruh.wind_plot(1)
+bruh.wind_speed()
 
 
 
